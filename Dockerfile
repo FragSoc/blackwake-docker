@@ -1,19 +1,20 @@
 FROM steamcmd/steamcmd AS steambuild
-# SETUP: Add maintainers
+MAINTAINER Ryan Smith <fragsoc@yusu.org>
+MAINTAINER Laura Demkowicz-Duffy <fragsoc@yusu.org>
 
-# SETUP: Get the appid of the dedicated server from steamdb or similar
-ARG APPID=<YOUR APPID HERE>
+ARG APPID=423410
 ARG UID=999
 
 ENV CONFIG_LOC="/config"
-ENV INSTALL_LOC="/GAME_NAME"
+ENV INSTALL_LOC="/blackwake"
+ENV HOME=$INSTALL_LOC
 
 # Upgrade the system
 USER root
-RUN apt-get update
-RUN apt-get upgrade --assume-yes
+RUN apt-get update && \
+    apt-get install --no-install-recommends --assume-yes wine-stable wine32 xvfb
 
-# Install the GAME_NAME server
+# Install the blackwake server
 RUN mkdir -p $INSTALL_LOC
 RUN steamcmd \
     +login anonymous \
@@ -21,18 +22,18 @@ RUN steamcmd \
     +app_update $APPID validate \
     +quit
 
-# SETUP: you will probably want to symlink the game's default config directory
-# SETUP: to $CONFIG_LOC here
 # Setup directory structure and permissions
-RUN useradd -m -s /bin/false -u $UID GAME_NAME
-RUN mkdir -p $CONFIG_LOC $INSTALL_LOC
-RUN chown -R GAME_NAME:GAME_NAME $INSTALL_LOC $CONFIG_LOC
+RUN useradd -m -s /bin/false -u $UID blackwake && \
+    mkdir -p $CONFIG_LOC $INSTALL_LOC && \
+    ln -s $CONFIG_LOC/Server.cfg $INSTALL_LOC/Server.cfg && \
+    ln -s $CONFIG_LOC/bans.txt $INSTALL_LOC/bans.txt && \
+    chown -R blackwake:blackwake $INSTALL_LOC $CONFIG_LOC
 
 # I/O
 VOLUME $CONFIG_LOC
-# SETUP: Add any ports you might need. Don't forget to append with /udp if necessary
+EXPOSE 25001/udp 26915/udp 27015/udp
 
 # Expose and run
-USER GAME_NAME
+USER blackwake
 WORKDIR $INSTALL_LOC
-# SETUP: Add an entrypoint for the game
+ENTRYPOINT ["xvfb-run", "wine", "./BlackwakeServer.exe", "-batchmode", "-nographics"]
