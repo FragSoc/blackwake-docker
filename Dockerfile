@@ -8,11 +8,6 @@ ARG UID=999
 ENV CONFIG_LOC="/config"
 ENV INSTALL_LOC="/GAME_NAME"
 
-# Upgrade the system
-USER root
-RUN apt-get update
-RUN apt-get upgrade --assume-yes
-
 # Install the GAME_NAME server
 RUN mkdir -p $INSTALL_LOC
 RUN steamcmd \
