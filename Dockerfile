@@ -27,6 +27,7 @@ RUN useradd -m -s /bin/false -u $UID blackwake && \
     mkdir -p $CONFIG_LOC $INSTALL_LOC && \
     ln -s $CONFIG_LOC/Server.cfg $INSTALL_LOC/Server.cfg && \
     ln -s $CONFIG_LOC/bans.txt $INSTALL_LOC/bans.txt && \
+    ln -s $CONFIG_LOC/admin.txt $INSTALL_LOC/admin.txt && \
     chown -R blackwake:blackwake $INSTALL_LOC $CONFIG_LOC
 
 # I/O
@@ -36,4 +37,4 @@ EXPOSE 25001/udp 26915/udp 27015/udp
 # Expose and run
 USER blackwake
 WORKDIR $INSTALL_LOC
-ENTRYPOINT ["xvfb-run", "wine", "./BlackwakeServer.exe", "-batchmode", "-nographics"]
+ENTRYPOINT ["xvfb-run", "wine", "./BlackwakeServer.exe", "-batchmode", "-nographics", "-logfile", "-"]
