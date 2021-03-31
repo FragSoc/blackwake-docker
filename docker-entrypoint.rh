@@ -7,6 +7,7 @@
     dest: /blackwake/Server.cfg
 
 - command:
+    transfer_pid_1: true
     argv:
       - "xvfb-run"
       - "-a"

@@ -6,7 +6,7 @@ MAINTAINER Laura Demkowicz-Duffy <fragsoc@yusu.org>
 # Upgrade the system
 USER root
 RUN apt-get update && \
-    apt-get install --no-install-recommends --assume-yes wine-stable wine32 xvfb
+    apt-get install --no-install-recommends --assume-yes wine-stable wine32 wine64 xvfb
 
 ENV CONFIG_LOC="/data"
 ENV INSTALL_LOC="/blackwake"
