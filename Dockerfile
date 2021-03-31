@@ -1,40 +1,48 @@
+FROM rustagainshell/rash:1.0.0 AS rash
 FROM steamcmd/steamcmd AS steambuild
 MAINTAINER Ryan Smith <fragsoc@yusu.org>
 MAINTAINER Laura Demkowicz-Duffy <fragsoc@yusu.org>
-
-ARG APPID=423410
-ARG UID=999
-
-ENV CONFIG_LOC="/config"
-ENV INSTALL_LOC="/blackwake"
-ENV HOME=$INSTALL_LOC
 
 # Upgrade the system
 USER root
 RUN apt-get update && \
     apt-get install --no-install-recommends --assume-yes wine-stable wine32 xvfb
 
-# Install the blackwake server
-RUN mkdir -p $INSTALL_LOC
-RUN steamcmd \
-    +login anonymous \
-    +force_install_dir $INSTALL_LOC \
-    +app_update $APPID validate \
-    +quit
+ENV CONFIG_LOC="/data"
+ENV INSTALL_LOC="/blackwake"
+ENV HOME=$INSTALL_LOC
+
+WORKDIR /
 
 # Setup directory structure and permissions
-RUN useradd -m -s /bin/false -u $UID blackwake && \
+ARG UID=999
+ARG GID=999
+RUN groupadd -g $GID blackwake && \
+    useradd -m -s /bin/false -u $UID -g blackwake blackwake && \
     mkdir -p $CONFIG_LOC $INSTALL_LOC && \
-    ln -s $CONFIG_LOC/Server.cfg $INSTALL_LOC/Server.cfg && \
-    ln -s $CONFIG_LOC/bans.txt $INSTALL_LOC/bans.txt && \
-    ln -s $CONFIG_LOC/admin.txt $INSTALL_LOC/admin.txt && \
     chown -R blackwake:blackwake $INSTALL_LOC $CONFIG_LOC
+
+USER blackwake
+
+# Install the blackwake server
+ARG APPID=423410
+ARG STEAM_BETA
+RUN steamcmd \
+        +login anonymous \
+        +force_install_dir $INSTALL_LOC \
+        +app_update $APPID $STEAM_BETA validate \
+        +quit && \
+    ln -s $CONFIG_LOC/bans.txt $INSTALL_LOC/bans.txt && \
+    ln -s $CONFIG_LOC/admin.txt $INSTALL_LOC/admin.txt
+
+COPY --from=rash /bin/rash /usr/bin/rash
+COPY docker-entrypoint.rh /docker-entrypoint.rh
+COPY Server.cfg.j2 /Server.cfg
 
 # I/O
 VOLUME $CONFIG_LOC
 EXPOSE 25001/udp 26915/udp 27015/udp
 
 # Expose and run
-USER blackwake
 WORKDIR $INSTALL_LOC
-ENTRYPOINT ["xvfb-run", "wine", "./BlackwakeServer.exe", "-batchmode", "-nographics", "-logfile", "-"]
+ENTRYPOINT ["/usr/bin/rash", "/docker-entrypoint.rh"]

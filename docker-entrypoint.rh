@@ -1,0 +1,18 @@
+#!/usr/bin/rash
+# vim: set ft=yaml:
+---
+
+- template:
+    src: /Server.cfg
+    dest: /blackwake/Server.cfg
+
+- command:
+    argv:
+      - "xvfb-run"
+      - "-a"
+      - "wine"
+      - "./BlackwakeServer.exe"
+      - "-batchmode"
+      - "-nographics"
+      - "-logfile"
+      - "-"
