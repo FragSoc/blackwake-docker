@@ -27,6 +27,7 @@ ARG STEAM_BETA
 RUN steamcmd \
         +login anonymous \
         +force_install_dir $INSTALL_LOC \
+        +@sSteamCmdForcePlatformType windows \
         +app_update $APPID $STEAM_BETA validate \
         +quit && \
     ln -s $CONFIG_LOC/bans.txt $INSTALL_LOC/bans.txt && \
