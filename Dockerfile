@@ -5,7 +5,6 @@ MAINTAINER Laura Demkowicz-Duffy <fragsoc@yusu.org>
 
 USER root
 
-ENV CONFIG_LOC="/data"
 ENV INSTALL_LOC="/blackwake"
 ENV HOME=$INSTALL_LOC
 
@@ -16,8 +15,8 @@ ARG UID=999
 ARG GID=999
 RUN groupadd -g $GID blackwake && \
     useradd -m -s /bin/false -u $UID -g blackwake blackwake && \
-    mkdir -p $CONFIG_LOC $INSTALL_LOC && \
-    chown -R blackwake:blackwake $INSTALL_LOC $CONFIG_LOC
+    mkdir -p $INSTALL_LOC && \
+    chown -R blackwake:blackwake $INSTALL_LOC
 
 USER blackwake
 
@@ -32,15 +31,12 @@ RUN steamcmd \
         # Steam libraries
         +app_update 1007 validate \
         +quit && \
-    ln -s $CONFIG_LOC/bans.txt $INSTALL_LOC/bans.txt && \
-    ln -s $CONFIG_LOC/admin.txt $INSTALL_LOC/admin.txt
 
 COPY --from=rash /bin/rash /usr/bin/rash
 COPY docker-entrypoint.rh /docker-entrypoint.rh
 COPY Server.cfg.j2 /Server.cfg
 
 # I/O
-VOLUME $CONFIG_LOC
 EXPOSE 25001/udp 27015/udp
 
 # Expose and run
