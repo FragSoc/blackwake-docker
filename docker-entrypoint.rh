@@ -11,7 +11,7 @@
     argv:
       - "xvfb-run"
       - "-a"
-      - "wine"
+      - "wine-stable"
       - "./BlackwakeServer.exe"
       - "-batchmode"
       - "-nographics"
