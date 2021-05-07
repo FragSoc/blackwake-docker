@@ -16,4 +16,4 @@
       - "-batchmode"
       - "-nographics"
       - "-logfile"
-      - "-"
+      - "blackwake_log.txt"
