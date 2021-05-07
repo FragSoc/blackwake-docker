@@ -29,6 +29,8 @@ RUN steamcmd \
         +force_install_dir $INSTALL_LOC \
         +@sSteamCmdForcePlatformType windows \
         +app_update $APPID $STEAM_BETA validate \
+        # Steam libraries
+        +app_update 1007 validate \
         +quit && \
     ln -s $CONFIG_LOC/bans.txt $INSTALL_LOC/bans.txt && \
     ln -s $CONFIG_LOC/admin.txt $INSTALL_LOC/admin.txt
@@ -39,7 +41,7 @@ COPY Server.cfg.j2 /Server.cfg
 
 # I/O
 VOLUME $CONFIG_LOC
-EXPOSE 25001/udp 26915/udp 27015/udp
+EXPOSE 25001/udp 27015/udp
 
 # Expose and run
 WORKDIR $INSTALL_LOC

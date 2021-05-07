@@ -1,6 +1,6 @@
 serverName={{ get_env(name="SERVER_NAME", default="A Dockerised Blackwake Server") }}
 port={{ get_env(name="SERVER_PORT", default="25001") }}
-useIp=0.0.0.0
+useIp=
 sport={{ get_env(name="STEAM_PORT", default="27015") }}
 hideFromList=0
 restartHour=-1
@@ -14,7 +14,7 @@ forceEqualFactions=1
 shipSpeedFactor=1
 playerUpdateRate=15
 allowGlobalVoice=0
-discordLink=
+discordLink={{ get_env(name="DISCORD_LINK", default="") }}
 teamCount=6
 
 captureSpeedMultiplier=1
