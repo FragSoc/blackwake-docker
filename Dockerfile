@@ -30,7 +30,7 @@ RUN steamcmd \
         +app_update $APPID $STEAM_BETA validate \
         # Steam libraries
         +app_update 1007 validate \
-        +quit && \
+        +quit
 
 COPY --from=rash /bin/rash /usr/bin/rash
 COPY docker-entrypoint.rh /docker-entrypoint.rh

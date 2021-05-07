@@ -15,5 +15,5 @@
       - "./BlackwakeServer.exe"
       - "-batchmode"
       - "-nographics"
-      - "-logfile"
+      - "-logFile"
       - "blackwake_log.txt"
