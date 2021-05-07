@@ -32,14 +32,9 @@ RUN steamcmd \
         +app_update 1007 validate \
         +quit
 
-USER root
 COPY --from=rash /bin/rash /usr/bin/rash
-ADD https://github.com/krallin/tini/releases/download/v0.19.0/tini /usr/bin/tini
-RUN chmod +x /usr/bin/tini
 COPY docker-entrypoint.rh /docker-entrypoint.rh
 COPY Server.cfg.j2 /Server.cfg
-
-USER blackwake
 
 # I/O
 EXPOSE 25001/udp 27015/udp
