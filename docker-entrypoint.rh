@@ -9,6 +9,8 @@
 - command:
     transfer_pid_1: true
     argv:
+      - "tini"
+      - "--"
       - "xvfb-run"
       - "-a"
       - "wine-stable"
