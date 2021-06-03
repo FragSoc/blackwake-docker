@@ -6,18 +6,22 @@
 
 A [docker](https://www.docker.com/) image for running a dedicated server for the game [Blackwake](http://www.blackwake.com/).
 
-## Usage
-
-### Quickstart
+## Quickstart
 
 ```bash
 docker build -t fragsoc/blackwake https://github.com/FragSoc/blackwake-docker.git && \
     docker run -d -p 25001:25001/udp -p 27015:27015/udp fragsoc/blackwake
 ```
 
-### Environment Variables
+## Running
 
-Variable | Default Value | Description
+Ports `27015` and `25001` are required to be open on UDP.
+These can be changed, see the below table.
+
+There is one volume at `/config` that contains server configuration files such as banlists and admin lists.
+Most configuration is handled with environment variables - if you need finer control, you can mount your own custom `Server.cfg` file at `/Server.cfg.j2`.
+
+Environment Variable | Default Value | Description
 ---|---|---
 `SERVER_NAME` | `A Dockerised Blackwake Server` | The server name to show in the master server list
 `SERVER_PASSWORD` | | The password required to join the server
@@ -25,17 +29,7 @@ Variable | Default Value | Description
 `SERVER_PORT` | `25001` | The port the server will run on (UDP), make sure to forward this!
 `STEAM_PORT` | `27015` | The port that steam integration will use (UDP), make sure to forward this if you want the server to appear in the master list and utilise other steam features!
 
-### Ports
-
-Ports `27015` and `25001` are required to be open on UDP.
-These can be changed, see the environment variables section.
-
-### Volumes
-
-There is one volume at `/config` that contains server configuration files such as banlists and admin lists.
-Most configuration is handled with environment variables - if you need finer control, you can mount your own custom `Server.cfg` file at `/Server.cfg.j2`.
-
-### Build Args
+## Building
 
 Build Arg | Default Value | Description
 ---|---|---
