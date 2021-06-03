@@ -9,11 +9,13 @@
 - command:
     transfer_pid_1: true
     argv:
+      - "tini"
+      - "--"
       - "xvfb-run"
       - "-a"
-      - "wine"
+      - "wine-stable"
       - "./BlackwakeServer.exe"
       - "-batchmode"
       - "-nographics"
-      - "-logfile"
+      - "-logFile"
       - "blackwake_log.txt"
