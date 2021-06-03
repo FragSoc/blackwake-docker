@@ -1,5 +1,4 @@
 <div align="center">
-    ![http://www.blackwake.com/](https://pcbuildsonabudget.com/wp-content/uploads/2017/03/blackwake-banner.jpg)
     <a href="http://www.blackwake.com/"><img width=100% src="https://pcbuildsonabudget.com/wp-content/uploads/2017/03/blackwake-banner.jpg"/></a>
 </div>
 
