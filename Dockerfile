@@ -24,8 +24,8 @@ USER blackwake
 ARG APPID=423410
 ARG STEAM_BETA
 RUN steamcmd \
-        +login anonymous \
         +force_install_dir $INSTALL_LOC \
+        +login anonymous \
         +@sSteamCmdForcePlatformType windows \
         +app_update $APPID $STEAM_BETA validate \
         # Steam libraries
