@@ -1,5 +1,6 @@
-FROM rustagainshell/rash:1.0.0 AS rash
-FROM fragsoc/steamcmd-wine-xvfb AS steambuild
+FROM rustagainshell/rash:1.7.0 AS rash
+ARG BASE_IMAGE=fragsoc/steamcmd-wine-xvfb
+FROM ${BASE_IMAGE} AS steambuild
 MAINTAINER Ryan Smith <fragsoc@yusu.org>
 MAINTAINER Laura Demkowicz-Duffy <fragsoc@yusu.org>
 
